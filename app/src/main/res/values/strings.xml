@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Contact Exchange</string>
+    <string name="search_hint">Name, Number…</string>
+    <string name="enable_nfc_msg">Enable NFC</string>
+    <string name="enable">Enable</string>
+    <string name="cancel">Cancel</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.App.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="primaryTextColor">@color/primaryText</item>
+        <item name="secondaryTextColor">@color/secondaryText</item>
+        <item name="buttonNormalColor">@color/colorAccent</item>
+        <item name="buttonHighlightColor">@color/buttonHighlight</item>
+        <item name="buttonTextColor">@color/buttonText</item>
+        <item name="backgroundColor">@color/background</item>
+        <item name="popupTheme">@style/Toolbar.Light</item>
+        <item name="searchViewTheme">@style/SearchView.Light</item>
+    </style>
+</resources>

@@ -1,0 +1,56 @@
+<resources>
+
+    <!-- Base application light theme. -->
+    <style name="Theme.App.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/DarkColorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="primaryTextColor">@color/primaryText</item>
+        <item name="secondaryTextColor">@color/secondaryText</item>
+        <item name="buttonNormalColor">@color/colorAccent</item>
+        <item name="buttonHighlightColor">@color/buttonHighlight</item>
+        <item name="buttonTextColor">@color/buttonText</item>
+        <item name="backgroundColor">@color/background</item>
+        <item name="popupTheme">@style/Toolbar.Light</item>
+        <item name="searchViewTheme">@style/SearchView.Light</item>
+    </style>
+
+    <!-- Application dark theme. -->
+    <style name="Theme.App.Dark" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/DarkColorPrimary</item>
+        <item name="colorPrimaryDark">@color/DarkColorPrimaryDark</item>
+        <item name="colorAccent">@color/DarkColorAccent</item>
+        <item name="primaryTextColor">@color/DarkPrimaryText</item>
+        <item name="secondaryTextColor">@color/DarkSecondaryText</item>
+        <item name="buttonNormalColor">@color/DarkColorAccent</item>
+        <item name="buttonHighlightColor">@color/DarkButtonHighlight</item>
+        <item name="buttonTextColor">@color/DarkButtonText</item>
+        <item name="backgroundColor">@color/DarkBackground</item>
+        <item name="popupTheme">@style/Toolbar.Dark</item>
+        <item name="searchViewTheme">@style/SearchView.Dark</item>
+    </style>
+
+    <style name="Toolbar.Light" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/primaryText</item>
+        <item name="android:textColorSecondary">@color/primaryText</item>
+    </style>
+
+    <style name="Toolbar.Dark" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColorPrimary">@color/DarkPrimaryText</item>
+        <item name="android:textColorSecondary">@color/DarkPrimaryText</item>
+    </style>
+
+    <style name="SearchView.Light" parent="Widget.AppCompat.Light.SearchView">
+        <item name="android:textColorHint">@color/secondaryText</item>
+        <item name="android:background">@color/background</item>
+        <item name="android:backgroundTint">@color/background</item>
+    </style>
+
+    <style name="SearchView.Dark" parent="Widget.AppCompat.SearchView">
+        <item name="android:textColorHint">@color/DarkSecondaryText</item>
+        <item name="android:background">@color/DarkBackground</item>
+        <item name="android:backgroundTint">@color/DarkBackground</item>
+        <item name="android:textColorPrimary">@color/DarkPrimaryText</item>
+        <item name="android:textColorSecondary">@color/DarkPrimaryText</item>
+    </style>
+</resources>
