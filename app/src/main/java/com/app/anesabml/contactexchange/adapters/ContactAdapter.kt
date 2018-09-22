@@ -6,23 +6,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import com.app.anesabml.contactexchange.models.Contact
+import com.app.anesabml.contactexchange.uimodels.Contact
 import com.app.anesabml.contactexchange.databinding.ContactItemBinding
-import android.view.animation.AnimationUtils
-import android.view.animation.Animation
+import com.app.anesabml.contactexchange.main.RecyclerViewClickListener
 
 
-class ContactAdapter(private var mContacts: ArrayList<Contact>, var listener: View.OnClickListener)
+class ContactAdapter(private var mContacts: ArrayList<Contact>,
+                     private var listener: RecyclerViewClickListener)
     : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>(),
         Filterable {
 
-
-    // Allows to remember the last item shown on screen
-    private var lastPosition = -1
-
-    private val mContactFilterList = mContacts
+    private var mContactFilterList = mContacts
     private var mValueFilter = ValueFilter()
 
+    inner class ContactViewHolder(private val binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+        init {
+            binding.root.setOnClickListener(this)
+        }
+        fun bind(currentContact: Contact) {
+            binding.contact = currentContact
+            binding.executePendingBindings()
+        }
+        override fun onClick(v: View?) {
+            listener.recyclerViewListClicked(v, adapterPosition)
+        }
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, p: Int): ContactViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -34,12 +43,6 @@ class ContactAdapter(private var mContacts: ArrayList<Contact>, var listener: Vi
 
     override fun onBindViewHolder(holderContact: ContactViewHolder, p: Int) {
         holderContact.bind(mContacts[p])
-        setAnimation(holderContact.itemView, p)
-        holderContact.itemView.setOnClickListener(listener)
-    }
-
-    override fun onViewDetachedFromWindow(holder: ContactViewHolder) {
-        holder.clearAnimation()
     }
 
     override fun getItemCount(): Int =
@@ -50,16 +53,10 @@ class ContactAdapter(private var mContacts: ArrayList<Contact>, var listener: Vi
         return mValueFilter
     }
 
-    class ContactViewHolder(private val binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(currentContact: Contact) {
-            binding.contact = currentContact
-            binding.executePendingBindings()
-        }
-
-        fun clearAnimation() {
-            binding.root.clearAnimation()
-        }
-
+    fun replaceData(arrayList: java.util.ArrayList<Contact>) {
+        mContacts = arrayList
+        mContactFilterList = arrayList
+        notifyDataSetChanged()
     }
 
     inner class ValueFilter : Filter() {
@@ -97,15 +94,4 @@ class ContactAdapter(private var mContacts: ArrayList<Contact>, var listener: Vi
 
     }
 
-    /**
-     * The key method to apply the animation
-     */
-    private fun setAnimation(viewToAnimate: View, position: Int) {
-        // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition) {
-            val animation = AnimationUtils.loadAnimation(viewToAnimate.context, android.R.anim.slide_in_left)
-            viewToAnimate.startAnimation(animation)
-            lastPosition = position
-        }
-    }
 }

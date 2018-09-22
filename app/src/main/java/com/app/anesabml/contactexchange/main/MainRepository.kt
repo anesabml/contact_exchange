@@ -1,12 +1,14 @@
 package com.app.anesabml.contactexchange.main
 
 import android.content.ContentResolver
+import android.content.ContentValues
+import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
-import android.util.Log
-import com.app.anesabml.contactexchange.models.Contact
-import android.R.attr.phoneNumber
-import java.util.Collections.replaceAll
+import android.provider.ContactsContract.Data
+import com.app.anesabml.contactexchange.uimodels.Contact
+import io.reactivex.Maybe
+import io.reactivex.Observable
 
 
 class MainRepository(var contentResolver: ContentResolver) {
@@ -15,7 +17,7 @@ class MainRepository(var contentResolver: ContentResolver) {
         const val TAG = "MainRepository"
     }
 
-    fun getContacts(): ArrayList<Contact> {
+    fun getContacts(): Observable<ArrayList<Contact>> {
 
         val contacts = ArrayList<Contact>()
 
@@ -50,6 +52,18 @@ class MainRepository(var contentResolver: ContentResolver) {
         }
         cursor.close()
 
-        return contacts
+        return Observable.just(contacts)
+    }
+
+    fun insertContact(contact: Contact) : Maybe<Uri> {
+        val values = ContentValues()
+        values.put(Data.MIMETYPE, Phone.CONTENT_ITEM_TYPE)
+        values.put(Phone.DISPLAY_NAME, contact.name)
+        values.put(Phone.PHOTO_URI, contact.image)
+        values.put(Phone.NUMBER, contact.numbers.first())
+        values.put(Phone.TYPE, Phone.TYPE_MOBILE)
+
+        val dataUri = contentResolver.insert(Data.CONTENT_URI, values)
+        return Maybe.just(dataUri)
     }
 }

@@ -6,7 +6,7 @@
 
         <variable
             name="contact"
-            type="com.app.anesabml.contactexchange.models.Contact" />
+            type="com.app.anesabml.contactexchange.uimodels.Contact" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -20,8 +20,9 @@
             android:id="@+id/image"
             android:layout_width="@dimen/contact_image_height_width"
             android:layout_height="@dimen/contact_image_height_width"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/ic_noun_a"
             app:image="@{contact.image}"
+            app:name="@{contact.name}"
             android:layout_marginTop="@dimen/contact_image_margin"
             android:layout_marginBottom="@dimen/contact_image_margin"
             android:layout_marginStart="@dimen/contact_image_margin"
