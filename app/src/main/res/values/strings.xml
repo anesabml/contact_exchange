@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Contact Exchange</string>
-    <string name="search_hint">Name, Number…</string>
+    <string name="search_hint">Search name &amp; number</string>
     <string name="enable_nfc_msg">Enable NFC</string>
     <string name="enable">Enable</string>
     <string name="cancel">Cancel</string>
     <string name="contact_sent_successfully">Contact Sent Successfully</string>
+    <string name="contact_saved_successfully">Contact Saved Seccessfully</string>
+    <string name="contact_saved_error">Error saving contact</string>
 </resources>

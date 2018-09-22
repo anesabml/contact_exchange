@@ -19,6 +19,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val isLoading = ObservableField<Boolean>(false)
     var contactList = MutableLiveData<ArrayList<Contact>>()
     var errorText: String? = null
+    var isContactSaved = MutableLiveData<Boolean>()
     private val compositeDisposable = CompositeDisposable()
 
     fun getContactsList() {
@@ -42,20 +43,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun saveContact(contact: Contact) {
+        isLoading.set(true)
         compositeDisposable.add(repository.insertContact(contact)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableMaybeObserver<Uri>() {
                     override fun onSuccess(t: Uri) {
-
+                        isContactSaved.value = true
                     }
 
                     override fun onComplete() {
-
+                        isLoading.set(false)
                     }
 
                     override fun onError(e: Throwable) {
-
+                        isContactSaved.value = false
                     }
                 }))
     }

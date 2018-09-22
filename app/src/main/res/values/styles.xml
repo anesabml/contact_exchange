@@ -13,6 +13,7 @@
         <item name="backgroundColor">@color/background</item>
         <item name="popupTheme">@style/Toolbar.Light</item>
         <item name="searchViewTheme">@style/SearchView.Light</item>
+        <item name="dialogTheme">@style/Dialog.Light</item>
     </style>
 
     <!-- Application dark theme. -->
@@ -53,4 +54,12 @@
         <item name="android:textColorPrimary">@color/DarkPrimaryText</item>
         <item name="android:textColorSecondary">@color/DarkPrimaryText</item>
     </style>
+
+    <style name="Dialog.Light" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--buttons color-->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--dialog background-->
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
+
 </resources>

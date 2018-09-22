@@ -20,7 +20,7 @@
             android:id="@+id/image"
             android:layout_width="@dimen/contact_image_height_width"
             android:layout_height="@dimen/contact_image_height_width"
-            android:src="@drawable/ic_noun_a"
+            android:src="@drawable/ic_person"
             app:image="@{contact.image}"
             app:name="@{contact.name}"
             android:layout_marginTop="@dimen/contact_image_margin"

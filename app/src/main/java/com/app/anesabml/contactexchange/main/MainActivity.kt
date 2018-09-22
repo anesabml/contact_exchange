@@ -15,6 +15,7 @@ import android.nfc.NfcAdapter
 import android.nfc.NfcEvent
 import android.os.Bundle
 import android.provider.Settings
+import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -88,6 +89,13 @@ class MainActivity : AppCompatActivity(),
             mNfcAdapter!!.setOnNdefPushCompleteCallback(this, this);
         }
 
+        mViewModel.isContactSaved.observe(this, Observer {
+            if (it!!) {
+                Snackbar.make(mBinding.root, R.string.contact_saved_successfully, Snackbar.LENGTH_LONG).show()
+            } else {
+                Snackbar.make(mBinding.root, R.string.contact_saved_error, Snackbar.LENGTH_LONG).show()
+            }
+        })
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -161,7 +169,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun showEnableNfcDialog() {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this, R.style.Dialog_Light)
         builder.setMessage(R.string.enable_nfc_msg)
         builder.setPositiveButton(R.string.enable) { _, _ ->
             startActivity(Intent(Settings.ACTION_NFC_SETTINGS))
@@ -193,7 +201,8 @@ class MainActivity : AppCompatActivity(),
     private fun showNumbersDialog() {
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
                 mViewModel.contactList.value!![mContactPosition].numbers)
-        val builder = AlertDialog.Builder(this)
+
+        val builder = AlertDialog.Builder(this, R.style.Dialog_Light)
         builder.setAdapter(adapter) { _, which ->
             mNumberPosition = which
         }

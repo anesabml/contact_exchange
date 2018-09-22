@@ -8,5 +8,6 @@
     <attr name="backgroundColor" format="reference" />
     <attr name="popupTheme" format="reference" />
     <attr name="searchViewTheme" format="reference" />
+    <attr name="dialogTheme" format="reference" />
 </resources>
 
