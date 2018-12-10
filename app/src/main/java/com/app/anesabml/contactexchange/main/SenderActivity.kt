@@ -4,15 +4,11 @@ import android.Manifest
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
-import android.nfc.NdefMessage
-import android.nfc.NdefRecord
-import android.nfc.NdefRecord.createMime
 import android.nfc.NfcAdapter
-import android.nfc.NfcEvent
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.design.widget.Snackbar
@@ -21,25 +17,26 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import com.app.anesabml.contactexchange.OutcomingNfcManager
 import com.app.anesabml.contactexchange.R
-import com.app.anesabml.contactexchange.databinding.ActivityMainBinding
+import com.app.anesabml.contactexchange.databinding.ActivitySenderBinding
 import com.app.anesabml.contactexchange.uimodels.Contact
 import com.app.anesabsml.nouveauleader.ContactAdapter
 
 
-class MainActivity : AppCompatActivity(),
+class SenderActivity : AppCompatActivity(),
         RecyclerViewClickListener,
-        NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
+        OutcomingNfcManager.NfcActivity {
 
-    companion object {
-        const val PERMISSIONS_REQUEST_READ_CONTACTS: Int = 1
-    }
 
-    private lateinit var mBinding: ActivityMainBinding
-    private lateinit var mViewModel: MainViewModel
+    val PERMISSIONS_REQUEST_READ_CONTACTS: Int = 1
+
+
+    private lateinit var mBinding: ActivitySenderBinding
+    private lateinit var mViewModel: SenderViewModel
 
     private var mAdapter = ContactAdapter(arrayListOf(), this)
     private var mContactPosition: Int = -1
@@ -47,11 +44,13 @@ class MainActivity : AppCompatActivity(),
 
     private var mNfcAdapter: NfcAdapter? = null
 
+    private lateinit var outcomingNfcCallback: OutcomingNfcManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_sender)
 
-        mViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        mViewModel = ViewModelProviders.of(this).get(SenderViewModel::class.java)
 
         checkContactPermission()
 
@@ -79,14 +78,20 @@ class MainActivity : AppCompatActivity(),
             }
         })
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mBinding.contactsList.setOnScrollChangeListener { _, _, _, _, _ ->
+                mBinding.searchHolder.isSelected = mBinding.contactsList.canScrollVertically(-1)
+            }
+        }
+
+        outcomingNfcCallback = OutcomingNfcManager(this)
         //Check if NFC is available on device
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (mNfcAdapter != null) {
             //This will refer back to createNdefMessage for what it will send
-            mNfcAdapter!!.setNdefPushMessageCallback(this, this)
-
+            mNfcAdapter!!.setNdefPushMessageCallback(outcomingNfcCallback, this)
             //This will be called if the message is sent successfully
-            mNfcAdapter!!.setOnNdefPushCompleteCallback(this, this);
+            mNfcAdapter!!.setOnNdefPushCompleteCallback(outcomingNfcCallback, this);
         }
 
         mViewModel.isContactSaved.observe(this, Observer {
@@ -96,6 +101,7 @@ class MainActivity : AppCompatActivity(),
                 Snackbar.make(mBinding.root, R.string.contact_saved_error, Snackbar.LENGTH_LONG).show()
             }
         })
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -124,36 +130,9 @@ class MainActivity : AppCompatActivity(),
         showNumbersDialog()
     }
 
-    override fun createNdefMessage(event: NfcEvent?): NdefMessage {
-        val contact = mViewModel.contactList.value!![mContactPosition]
-        val msg = NdefMessage(
-                arrayOf(
-                        createMime("application/vnd.com.app.anesabml.contactexchange", contact.name?.toByteArray()),
-                        createMime("application/vnd.com.app.anesabml.contactexchange", contact.numbers[mNumberPosition]?.toByteArray())
-                )
-        )
-        NdefRecord.createApplicationRecord("com.app.anesabml.contactexchange")
-        return msg
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // Check to see that the Activity started due to an Android Beam
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
-            processIntent(intent)
-        }
-    }
-
-    override fun onNdefPushComplete(event: NfcEvent?) {
-        AlertDialog.Builder(this)
-                .setMessage(R.string.contact_sent_successfully)
-                .show()
-    }
-
     override fun onNewIntent(intent: Intent?) {
         // onResume gets called after this to handle the intent
-        setIntent(intent)
+        this.intent = intent
     }
 
     private fun checkContactPermission() {
@@ -180,23 +159,6 @@ class MainActivity : AppCompatActivity(),
         builder.show()
     }
 
-    /**
-     * Parses the NDEF Message from the intent and prints to the TextView
-     */
-    private fun processIntent(intent: Intent?) {
-        val rawMsgs = intent?.getParcelableArrayExtra(
-                NfcAdapter.EXTRA_NDEF_MESSAGES)
-        // only one message sent during the beam
-        val msg = rawMsgs?.get(0) as NdefMessage
-        // record 0 contains the MIME type, record 1 is the AAR, if present
-        Log.d("Ndf msg", msg.records[0].payload.toString())
-
-        val newContact = Contact(
-                msg.records[0].payload.toString(),
-                arrayListOf(msg.records[1].payload.toString()))
-
-        mViewModel.saveContact(newContact)
-    }
 
     private fun showNumbersDialog() {
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
@@ -207,6 +169,19 @@ class MainActivity : AppCompatActivity(),
             mNumberPosition = which
         }
         builder.show()
+    }
+
+    override fun getOutcomingMessage(): Contact {
+        return mViewModel.contactList.value!![mContactPosition]
+    }
+
+    override fun signalResult() {
+        // this will be triggered when NFC message is sent to a device.
+        // should be triggered on UI thread. We specify it explicitly
+        // cause onNdefPushComplete is called from the Binder thread
+        runOnUiThread {
+            Toast.makeText(this, R.string.message_beaming_complete, Toast.LENGTH_SHORT).show()
+        }
     }
 }
 

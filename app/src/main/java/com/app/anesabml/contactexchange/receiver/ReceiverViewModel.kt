@@ -1,4 +1,4 @@
-package com.app.anesabml.contactexchange.main
+package com.app.anesabml.contactexchange.receiver
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
@@ -9,38 +9,14 @@ import com.app.anesabml.contactexchange.uimodels.Contact
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableMaybeObserver
-import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class ReceiverViewModel(application: Application) : AndroidViewModel(application) {
 
-    var repository = MainRepository(getApplication<Application>().contentResolver)
+    var repository = ReceiverRepository(getApplication<Application>().contentResolver)
     val isLoading = ObservableField<Boolean>(false)
-    var contactList = MutableLiveData<ArrayList<Contact>>()
-    var errorText: String? = null
     var isContactSaved = MutableLiveData<Boolean>()
     private val compositeDisposable = CompositeDisposable()
-
-    fun getContactsList() {
-        isLoading.set(true)
-        compositeDisposable.add(repository.getContacts()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableObserver<ArrayList<Contact>>() {
-                    override fun onComplete() {
-                        isLoading.set(false)
-                    }
-
-                    override fun onNext(t: ArrayList<Contact>) {
-                        contactList.value = t
-                    }
-
-                    override fun onError(e: Throwable) {
-                        errorText = e.message
-                    }
-                }))
-    }
 
     fun saveContact(contact: Contact) {
         isLoading.set(true)

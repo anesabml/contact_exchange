@@ -7,4 +7,9 @@
     <string name="contact_sent_successfully">Contact Sent Successfully</string>
     <string name="contact_saved_successfully">Contact Saved Seccessfully</string>
     <string name="contact_saved_error">Error saving contact</string>
+    <string name="new_contact">New contact</string>
+    <string name="save">Save</string>
+    <string name="message_beaming_complete">Beaming complete</string>
+    <string name="send">Send</string>
+    <string name="recieve">Recieve</string>
 </resources>

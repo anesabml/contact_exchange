@@ -9,14 +9,14 @@
 
         <variable
             name="viewModel"
-            type="com.app.anesabml.contactexchange.main.MainViewModel" />
+            type="com.app.anesabml.contactexchange.main.SenderViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/backgroundColor"
-        tools:context=".main.MainActivity">
+        tools:context=".main.SenderActivity">
 
         <android.support.v7.widget.CardView
             android:id="@+id/search_holder"
@@ -25,7 +25,8 @@
             android:layout_margin="@dimen/card_view_margin"
             android:elevation="@dimen/card_view_elevation"
             app:cardCornerRadius="@dimen/card_view_corner_radius"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:stateListAnimator="@animator/header_elavation">
 
             <android.support.v7.widget.SearchView
                 android:id="@+id/search"

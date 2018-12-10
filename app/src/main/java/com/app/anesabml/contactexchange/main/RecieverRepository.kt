@@ -11,10 +11,10 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 
 
-class MainRepository(var contentResolver: ContentResolver) {
+class RecieverRepository(var contentResolver: ContentResolver) {
 
     companion object {
-        const val TAG = "MainRepository"
+        const val TAG = "RecieverRepository"
     }
 
     fun getContacts(): Observable<ArrayList<Contact>> {
@@ -46,7 +46,9 @@ class MainRepository(var contentResolver: ContentResolver) {
                     numbersList.add(number.replace("\\s".toRegex(), ""))
                 }
                 // Adding a new contact to the list
-                contacts.add(Contact(image, name, numbersList.distinct()))
+                val c = Contact(image, name, numbersList.distinct())
+                c.id = id.toInt()
+                contacts.add(c)
                 phoneCursor.close()
             }
         }
@@ -55,15 +57,4 @@ class MainRepository(var contentResolver: ContentResolver) {
         return Observable.just(contacts)
     }
 
-    fun insertContact(contact: Contact) : Maybe<Uri> {
-        val values = ContentValues()
-        values.put(Data.MIMETYPE, Phone.CONTENT_ITEM_TYPE)
-        values.put(Phone.DISPLAY_NAME, contact.name)
-        values.put(Phone.PHOTO_URI, contact.image)
-        values.put(Phone.NUMBER, contact.numbers.first())
-        values.put(Phone.TYPE, Phone.TYPE_MOBILE)
-
-        val dataUri = contentResolver.insert(Data.CONTENT_URI, values)
-        return Maybe.just(dataUri)
-    }
 }
