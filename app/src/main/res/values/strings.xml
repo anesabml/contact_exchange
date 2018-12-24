@@ -4,12 +4,11 @@
     <string name="enable_nfc_msg">Enable NFC</string>
     <string name="enable">Enable</string>
     <string name="cancel">Cancel</string>
-    <string name="contact_sent_successfully">Contact Sent Successfully</string>
     <string name="contact_saved_successfully">Contact Saved Seccessfully</string>
     <string name="contact_saved_error">Error saving contact</string>
     <string name="new_contact">New contact</string>
     <string name="save">Save</string>
-    <string name="message_beaming_complete">Beaming complete</string>
-    <string name="send">Send</string>
-    <string name="recieve">Recieve</string>
+    <string name="message_beaming_complete">Sending complete</string>
+    <string name="please_place_the_devices_close">Please keep the devices close</string>
+    <string name="sending">Sending</string>
 </resources>

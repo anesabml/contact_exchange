@@ -6,7 +6,7 @@ import android.nfc.NfcAdapter
 import android.nfc.NfcEvent
 import com.app.anesabml.contactexchange.uimodels.Contact
 
-class OutcomingNfcManager(
+class NfcManager(
         private val nfcActivity: NfcActivity
 ) :
         NfcAdapter.CreateNdefMessageCallback,

@@ -10,13 +10,6 @@
     <color name="background">#FFFFFF</color>
 
 
-    <color name="DarkColorPrimary">#000000</color>
     <color name="DarkColorPrimaryDark">#000000</color>
-    <color name="DarkColorAccent">#2196F3</color>
-    <color name="DarkPrimaryText">#FFFFFF</color>
-    <color name="DarkSecondaryText">#E0E0E0</color>
-    <color name="DarkButtonHighlight">#000000</color>
-    <color name="DarkButtonText">#000000</color>
-    <color name="DarkBackground">#000000</color>
 
 </resources>

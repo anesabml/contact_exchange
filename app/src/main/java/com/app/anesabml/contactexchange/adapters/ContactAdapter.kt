@@ -59,7 +59,7 @@ class ContactAdapter(private var mContacts: ArrayList<Contact>,
         notifyDataSetChanged()
     }
 
-    inner class ValueFilter : Filter() {
+    inner class ValueFilter : Filter()  {
 
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val results = Filter.FilterResults()
