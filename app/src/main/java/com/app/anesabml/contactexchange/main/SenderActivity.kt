@@ -3,45 +3,47 @@ package com.app.anesabml.contactexchange.main
 import android.Manifest
 import android.app.AlertDialog
 import android.app.PendingIntent
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import androidx.databinding.DataBindingUtil
 import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.Settings
-import com.google.android.material.snackbar.Snackbar
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.appcompat.widget.SearchView
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.anesabml.contactexchange.NfcManager
 import com.app.anesabml.contactexchange.R
 import com.app.anesabml.contactexchange.databinding.ActivitySenderBinding
 import com.app.anesabml.contactexchange.models.Contact
 import com.app.anesabsml.nouveauleader.ContactAdapter
+import com.google.android.material.snackbar.Snackbar
 
 
 class SenderActivity : AppCompatActivity(),
         RecyclerViewClickListener,
         NfcManager.NfcActivity {
 
+    companion object {
 
-    val PERMISSIONS_REQUEST_READ_CONTACTS: Int = 1
+        private val PERMISSIONS_REQUEST_READ_CONTACTS: Int = 1
 
+    }
 
     private lateinit var mBinding: ActivitySenderBinding
-    private lateinit var mViewModel: SenderViewModel
+    private val mViewModel: SenderViewModel by viewModels()
 
     private var mAdapter = ContactAdapter(arrayListOf(), this)
     private var mContactPosition: Int = -1
@@ -56,8 +58,6 @@ class SenderActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_sender)
-
-        mViewModel = ViewModelProviders.of(this).get(SenderViewModel::class.java)
 
         checkContactPermission()
 
@@ -154,6 +154,7 @@ class SenderActivity : AppCompatActivity(),
     }
 
     override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
         this.intent = intent
         processIntent(intent)
     }

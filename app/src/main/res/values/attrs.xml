@@ -5,7 +5,7 @@
     <attr name="buttonNormalColor" format="reference"/>
     <attr name="buttonHighlightColor" format="reference" />
     <attr name="buttonTextColor" format="reference" />
-    <attr name="backgroundColor" format="reference" />
+<!--    <attr name="backgroundColor" format="reference" />-->
     <attr name="popupTheme" format="reference" />
     <attr name="searchViewTheme" format="reference" />
     <attr name="dialogTheme" format="reference" />
