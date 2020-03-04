@@ -1,10 +1,10 @@
 package com.app.anesabml.contactexchange.main
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableField
-import com.app.anesabml.contactexchange.uimodels.Contact
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
+import com.app.anesabml.contactexchange.models.Contact
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
@@ -13,7 +13,7 @@ import java.util.*
 
 class SenderViewModel(application: Application) : AndroidViewModel(application) {
 
-    var repository = RecieverRepository(getApplication<Application>().contentResolver)
+    var repository = ReceiverRepository(getApplication<Application>().contentResolver)
     val isLoading = ObservableField<Boolean>(false)
     var contactList = MutableLiveData<ArrayList<Contact>>()
     var errorText: String? = null

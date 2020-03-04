@@ -1,12 +1,12 @@
 package com.app.anesabsml.nouveauleader
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import com.app.anesabml.contactexchange.uimodels.Contact
+import com.app.anesabml.contactexchange.models.Contact
 import com.app.anesabml.contactexchange.databinding.ContactItemBinding
 import com.app.anesabml.contactexchange.main.RecyclerViewClickListener
 

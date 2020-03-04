@@ -1,20 +1,16 @@
 package com.app.anesabml.contactexchange.main
 
 import android.content.ContentResolver
-import android.content.ContentValues
-import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
-import android.provider.ContactsContract.Data
-import com.app.anesabml.contactexchange.uimodels.Contact
-import io.reactivex.Maybe
+import com.app.anesabml.contactexchange.models.Contact
 import io.reactivex.Observable
 
 
-class RecieverRepository(var contentResolver: ContentResolver) {
+class ReceiverRepository(var contentResolver: ContentResolver) {
 
     companion object {
-        const val TAG = "RecieverRepository"
+        private val TAG = ReceiverRepository::class.simpleName
     }
 
     fun getContacts(): Observable<ArrayList<Contact>> {

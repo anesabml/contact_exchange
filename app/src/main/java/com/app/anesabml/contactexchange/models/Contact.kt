@@ -1,6 +1,6 @@
-package com.app.anesabml.contactexchange.uimodels
+package com.app.anesabml.contactexchange.models
 
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.app.anesabml.contactexchange.R

@@ -3,24 +3,24 @@ package com.app.anesabml.contactexchange.main
 import android.Manifest
 import android.app.AlertDialog
 import android.app.PendingIntent
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.Settings
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.SearchView
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
@@ -28,7 +28,7 @@ import android.widget.Toast
 import com.app.anesabml.contactexchange.NfcManager
 import com.app.anesabml.contactexchange.R
 import com.app.anesabml.contactexchange.databinding.ActivitySenderBinding
-import com.app.anesabml.contactexchange.uimodels.Contact
+import com.app.anesabml.contactexchange.models.Contact
 import com.app.anesabsml.nouveauleader.ContactAdapter
 
 

@@ -4,7 +4,7 @@ import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
 import android.nfc.NfcEvent
-import com.app.anesabml.contactexchange.uimodels.Contact
+import com.app.anesabml.contactexchange.models.Contact
 
 class NfcManager(
         private val nfcActivity: NfcActivity
